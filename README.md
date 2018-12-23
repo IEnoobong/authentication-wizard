@@ -19,5 +19,22 @@ An account-password backend system in Java, using Spring Boot that meets the fol
 
 - Fields in the input object must be checked if they are required and if they have the right data types.
 
-## Building 
+Authentication Wizard is hosted on [Heroku](https://authentication-wizard.herokuapp.com/), uses an in-memory h2 
+database to persist user login details securely and is tested with Junit5. Its endpoint's are available for testing 
+via Swagger [here](https://authentication-wizard.herokuapp.com/swagger-ui.html) 
 
+## Building 
+1. Clone the repository and navigate to its directory e.g `git clone https://github.com/IEnoobong/authentication-wizard
+.git && authentication-wizard`
+
+2. App Uses Java Mail to send verification emails on sign up, so edit missing `spring.mail.*` in `application
+.properties` else you won't get verification mails
+
+3. Run app `mvn spring-boot:run`
+
+## How to contribute
+I'm more than welcome to contributions, If you are willing to contribute to the project feel free to make a fork and submit 
+a pull request. You can hit me up on [@IEnoobong](https://twitter.com/IEnoobong)
+ 
+## This helped you and you want to buy me Jollof-Rice?
+Here's my link https://payme.ng/ienoobong :) Cheers!
