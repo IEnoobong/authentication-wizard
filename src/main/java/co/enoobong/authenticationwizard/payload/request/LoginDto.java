@@ -16,6 +16,11 @@ public class LoginDto {
         //Empty Constructor for (de)serialization
     }
 
+    public LoginDto(@NotBlank @Email String email, @NotBlank String password) {
+        this.email = email;
+        this.password = password;
+    }
+
     public String getEmail() {
         return email;
     }

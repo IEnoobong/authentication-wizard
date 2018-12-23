@@ -14,10 +14,10 @@ public interface AuthService {
     SignUpResponse signUp(@Valid SignUpDto signUpDto);
 
     @NotNull
-    MessageResponse login(@Valid LoginDto loginDto);
+    MessageResponse verifyEmail(@NotNull String token);
 
     @NotNull
-    MessageResponse verifyEmail(@NotNull String token);
+    MessageResponse login(@Valid LoginDto loginDto);
 
     void saveVerificationToken(User user, String token);
 }
