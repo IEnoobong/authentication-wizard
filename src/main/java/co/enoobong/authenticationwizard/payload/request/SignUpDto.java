@@ -27,6 +27,13 @@ public class SignUpDto {
         //Empty Constructor for (de)serialization
     }
 
+    public SignUpDto(@NotBlank @Size(max = 40) String firstName, @NotBlank @Size(max = 40) String lastName, @Email @NotBlank String email, @NotBlank String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -50,13 +57,17 @@ public class SignUpDto {
 
         SignUpDto signUpDto = (SignUpDto) o;
 
+        if (!firstName.equals(signUpDto.firstName)) return false;
+        if (!lastName.equals(signUpDto.lastName)) return false;
         if (!email.equals(signUpDto.email)) return false;
         return password.equals(signUpDto.password);
     }
 
     @Override
     public int hashCode() {
-        int result = email.hashCode();
+        int result = firstName.hashCode();
+        result = 31 * result + lastName.hashCode();
+        result = 31 * result + email.hashCode();
         result = 31 * result + password.hashCode();
         return result;
     }

@@ -2,6 +2,7 @@ package co.enoobong.authenticationwizard.controller;
 
 import co.enoobong.authenticationwizard.payload.request.LoginDto;
 import co.enoobong.authenticationwizard.payload.request.SignUpDto;
+import co.enoobong.authenticationwizard.payload.response.MessageResponse;
 import co.enoobong.authenticationwizard.payload.response.SignUpResponse;
 import co.enoobong.authenticationwizard.service.AuthService;
 import javax.validation.Valid;
@@ -29,13 +30,13 @@ public class AuthController {
         return ResponseEntity.ok(authService.signUp(signupDto));
     }
 
-    @PostMapping("login")
-    public ResponseEntity login(@Valid @RequestBody LoginDto loginDto) {
-        return ResponseEntity.ok(authService.login(loginDto));
+    @GetMapping("verifyEmail/{token}")
+    public ResponseEntity<MessageResponse> verifyEmail(@PathVariable("token") String token) {
+        return ResponseEntity.ok(authService.verifyEmail(token));
     }
 
-    @GetMapping("verifyEmail/{token}")
-    public ResponseEntity verifyEmail(@PathVariable("token") String token) {
-        return ResponseEntity.ok(authService.verifyEmail(token));
+    @PostMapping("login")
+    public ResponseEntity<MessageResponse> login(@Valid @RequestBody LoginDto loginDto) {
+        return ResponseEntity.ok(authService.login(loginDto));
     }
 }

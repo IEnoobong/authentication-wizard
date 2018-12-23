@@ -9,6 +9,7 @@ public class SignUpResponse {
     }
 
     public SignUpResponse(UserDto user) {
+        super();
         this.user = user;
     }
 

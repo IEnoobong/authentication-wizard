@@ -86,17 +86,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @NotNull
-    public MessageResponse login(@Valid LoginDto loginDto) {
-        final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(),
-                loginDto.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        return new MessageResponse("Successfully logged in");
-    }
-
-    @Override
-    @NotNull
     public MessageResponse verifyEmail(@NotNull String token) {
         final SignUpVerificationToken verificationToken = signUpVerificationRepository.findByToken(token).
                 orElseThrow(() -> new ResourceNotFoundException("Verification Token", "token", token));
@@ -110,6 +99,17 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(user);
         return new MessageResponse("Email has been verified");
 
+    }
+
+    @Override
+    @NotNull
+    public MessageResponse login(@Valid LoginDto loginDto) {
+        final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(),
+                loginDto.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return new MessageResponse("Successfully logged in");
     }
 
     @Override
