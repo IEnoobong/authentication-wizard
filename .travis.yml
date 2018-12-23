@@ -14,7 +14,7 @@ before_script:
 script:
   - mvn clean test jacoco:report
 after_script:
-  - "./cc-test-reporter format-coverage target/site/jacoco/jacoco.xml --input-type jacoco"
+  - "JACOCO_SOURCE_PATH=src/main/java ./cc-test-reporter format-coverage target/site/jacoco/jacoco.xml --input-type jacoco"
   - "./cc-test-reporter upload-coverage"
 after_success:
   - bash <(curl -s https://codecov.io/bash)
