@@ -1,0 +1,17 @@
+{
+  "name": "authentication-wizard",
+  "description": "An account-password backend system.",
+  "scripts": {
+  },
+  "env": {
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "stack": "heroku-18",
+  "buildpacks": [
+
+  ]
+}
