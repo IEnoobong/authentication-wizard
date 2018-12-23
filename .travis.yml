@@ -1,0 +1,28 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=86e5e98dfd5450e0576d92855dad7f9ae63de57bc1504f257065480c311ea557
+language: java
+jdk:
+  - oraclejdk11
+dist: xenial
+install: skip
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+    > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - "./cc-test-reporter before-build"
+script:
+  - mvn clean test jacoco:report
+after_script:
+  - "./cc-test-reporter format-coverage target/site/jacoco/jacoco.xml --input-type jacoco"
+  - "./cc-test-reporter upload-coverage"
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+cache:
+  directories:
+    - ".autoconf"
+    - "$HOME/.m2"
+deploy:
+  provider: heroku
+  api_key:
+    secure: KDjklxzuQyOLRBbDKsxFg8IXOa+jCSzPfeue9zmEraSHTvdarCwjs5KKQav2T2GjAHLQH0Lu01pYmoqExuJyGz4kiw55zkiHV50azUqFP+pHet2/dhIFrGQNP2KMuVcCc0LkYOgDIneZnuXXwlIH2Gqm+9ulfVnKmqqUFOtWF1EF4qbzY7nRc2tdTl6bCoVZ3VqaWBtrUNXwsxwoOMqdd0N4JsMBFh+ZuIYt9wS7zRUQIRe0w9E7228XXarCRjjt4Ge4I97OeKVB3sdyp7BlnqqiU1qXIHf8Dy/WXhfbcIxmZjLYUQ9f3XTxvATlwkNX913kbvY3rbiZUtebjjfF7W5Q2gslooVKUZKMt48Pjb8OOCVqxuYnddOvuKnJeLyL5f/S0vAVfEgjue2mqWcVSSf5KIZCm48k00Fzn2JhxSRCr7SpwBpfI9uTKen59JFB8NTm67uL6CCq/pHEeMmRVJwAHC+H062AV0l+TeLJhX/1oyFX77OtCYnEaDkolodAlD/7es0pswB0Bjs9UzMsGGQkJ6gsX4dNljX9zHb9/I4QjH8A2HqQGu4RHVR5U2V8OkKXXexbj3asaggrJge6rk8femjwZcPVxRUPNiWuEU3A7bV9ZuArDo4ODz9pjx3bDBwu3lyQdE12zk7WpL43tASA3K/M8P9PwM4F8bQRj4I=
