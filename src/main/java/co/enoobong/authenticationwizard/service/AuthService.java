@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 public interface AuthService {
 
     @NotNull
-    SignUpResponse signUp(@Valid SignUpDto signUpDto);
+    SignUpResponse signUp(@Valid SignUpDto signUpDto, String baseUrl);
 
     @NotNull
     MessageResponse verifyEmail(@NotNull String token);

@@ -31,7 +31,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -63,7 +62,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @NotNull
-    public SignUpResponse signUp(@Valid SignUpDto signUpDto) {
+    public SignUpResponse signUp(@Valid SignUpDto signUpDto, String baseUrl) {
         final String encodedPassword = passwordEncoder.encode(signUpDto.getPassword());
 
         final Role userRole = roleRepository.findRoleByName(RoleName.ROLE_USER)
@@ -73,7 +72,6 @@ public class AuthServiceImpl implements AuthService {
                 userRole);
         try {
             final User savedUser = userRepository.save(user);
-            final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
             eventPublisher.publishEvent(new SignUpCompleteEvent(savedUser, baseUrl));
             final UserDto userDto = new UserDto(savedUser.getId(), savedUser.getFirstName(), savedUser.getLastName(), savedUser.getEmail(),
                     savedUser.getCreatedAt());

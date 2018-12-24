@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping(value = "v1/auth", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -27,7 +28,8 @@ public class AuthController {
 
     @PostMapping("signUp")
     public ResponseEntity<SignUpResponse> signUp(@Valid @RequestBody SignUpDto signupDto) {
-        return ResponseEntity.ok(authService.signUp(signupDto));
+        final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+        return ResponseEntity.ok(authService.signUp(signupDto, baseUrl));
     }
 
     @GetMapping("verifyEmail/{token}")

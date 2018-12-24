@@ -30,6 +30,11 @@ public class Role {
         //default constructor for JPA
     }
 
+    public Role(Long id, @NotNull RoleName name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public RoleName getName() {
         return name;
     }

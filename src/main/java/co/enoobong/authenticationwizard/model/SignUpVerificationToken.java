@@ -1,6 +1,7 @@
 package co.enoobong.authenticationwizard.model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -55,5 +56,27 @@ public class SignUpVerificationToken {
 
     public LocalDateTime getExpirationDate() {
         return expirationDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SignUpVerificationToken)) return false;
+
+        SignUpVerificationToken that = (SignUpVerificationToken) o;
+
+        if (!Objects.equals(id, that.id)) return false;
+        if (!token.equals(that.token)) return false;
+        if (!user.equals(that.user)) return false;
+        return expirationDate.equals(that.expirationDate);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + token.hashCode();
+        result = 31 * result + user.hashCode();
+        result = 31 * result + expirationDate.hashCode();
+        return result;
     }
 }

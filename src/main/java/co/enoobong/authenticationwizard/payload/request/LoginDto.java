@@ -28,22 +28,4 @@ public class LoginDto {
     public String getPassword() {
         return password;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        LoginDto loginDto = (LoginDto) o;
-
-        if (!email.equals(loginDto.email)) return false;
-        return password.equals(loginDto.password);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = email.hashCode();
-        result = 31 * result + password.hashCode();
-        return result;
-    }
 }

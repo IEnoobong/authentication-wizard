@@ -1,7 +1,9 @@
 package co.enoobong.authenticationwizard.model;
 
 import co.enoobong.authenticationwizard.model.audit.DateAudit;
+import com.google.common.annotations.VisibleForTesting;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -75,6 +77,11 @@ public class User extends DateAudit {
         return id;
     }
 
+    @VisibleForTesting
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -95,7 +102,6 @@ public class User extends DateAudit {
         return roles;
     }
 
-
     public boolean isEnabled() {
         return isEnabled;
     }
@@ -105,15 +111,30 @@ public class User extends DateAudit {
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", isEnabled=" + isEnabled +
-                ", roles=" + roles +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+
+        User user = (User) o;
+
+        if (isEnabled != user.isEnabled) return false;
+        if (!Objects.equals(id, user.id)) return false;
+        if (!firstName.equals(user.firstName)) return false;
+        if (!lastName.equals(user.lastName)) return false;
+        if (!email.equals(user.email)) return false;
+        if (!password.equals(user.password)) return false;
+        return roles.equals(user.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + firstName.hashCode();
+        result = 31 * result + lastName.hashCode();
+        result = 31 * result + email.hashCode();
+        result = 31 * result + password.hashCode();
+        result = 31 * result + (isEnabled ? 1 : 0);
+        result = 31 * result + roles.hashCode();
+        return result;
     }
 }
