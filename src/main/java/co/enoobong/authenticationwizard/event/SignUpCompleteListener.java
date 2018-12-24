@@ -37,6 +37,10 @@ public class SignUpCompleteListener {
         final String token = UUID.randomUUID().toString();
         authService.saveVerificationToken(user, token);
 
+        sendConfirmationEmail(user, baseUrl, token);
+    }
+
+    private void sendConfirmationEmail(User user, String baseUrl, String token) {
         final String recipient = user.getEmail();
         final String subject = "Registration Confirmation";
 

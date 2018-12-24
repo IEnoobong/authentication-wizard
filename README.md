@@ -27,7 +27,7 @@ via Swagger [here](https://authentication-wizard.herokuapp.com/swagger-ui.html)
 1. Clone the repository and navigate to its directory e.g `git clone https://github.com/IEnoobong/authentication-wizard
 .git && authentication-wizard`
 
-2. App Uses Java Mail to send verification emails on sign up, so edit missing `spring.mail.*` in `application
+2. App Uses Java Mail to send verification emails on sign up, so edit missing `spring.mail.*` and `app.support.emai` in `application
 .properties` else you won't get verification mails
 
 3. Run app `mvn spring-boot:run`

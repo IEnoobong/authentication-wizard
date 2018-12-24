@@ -49,26 +49,4 @@ public class SignUpDto {
     public String getPassword() {
         return password;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        SignUpDto signUpDto = (SignUpDto) o;
-
-        if (!firstName.equals(signUpDto.firstName)) return false;
-        if (!lastName.equals(signUpDto.lastName)) return false;
-        if (!email.equals(signUpDto.email)) return false;
-        return password.equals(signUpDto.password);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = firstName.hashCode();
-        result = 31 * result + lastName.hashCode();
-        result = 31 * result + email.hashCode();
-        result = 31 * result + password.hashCode();
-        return result;
-    }
 }

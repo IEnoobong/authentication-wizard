@@ -22,6 +22,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -53,7 +55,7 @@ class AuthControllerTest {
         final SignUpDto signUpDto = new SignUpDto("Ibanga", "Eno", "ibangaenoobong@yahoo.com", "yagba");
         final UserDto userDto = new UserDto(1, signUpDto.getFirstName(), signUpDto.getLastName(), signUpDto.getEmail(), Instant.now());
         final SignUpResponse signUpResponse = new SignUpResponse(userDto);
-        given(authService.signUp(signUpDto)).willReturn(signUpResponse);
+        given(authService.signUp(any(SignUpDto.class), anyString())).willReturn(signUpResponse);
 
         mockMvc.perform(post("/v1/auth/signUp")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -85,7 +87,7 @@ class AuthControllerTest {
     void loginShouldLogin() throws Exception {
         final LoginDto loginDto = new LoginDto("ibangaenoobong@yahoo.com", "yagaba");
         final MessageResponse response = new MessageResponse("Successfully logged in");
-        given(authService.login(loginDto)).willReturn(response);
+        given(authService.login(any(LoginDto.class))).willReturn(response);
 
         mockMvc.perform(post("/v1/auth/login/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
