@@ -93,7 +93,7 @@ class AuthServiceImplTest {
 
         final SignUpResponse signUpResponse = authService.signUp(signUpDto, "");
 
-        assertEquals(user.getId().longValue(), signUpResponse.getUser().getId());
+        assertEquals(user.getId().longValue(), signUpResponse.getId());
 
         final InOrder inOrder = inOrder(passwordEncoder, roleRepository, userRepository, eventPublisher);
         inOrder.verify(passwordEncoder).encode(anyString());

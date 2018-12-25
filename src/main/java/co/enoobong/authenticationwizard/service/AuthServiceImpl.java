@@ -12,7 +12,6 @@ import co.enoobong.authenticationwizard.payload.request.LoginDto;
 import co.enoobong.authenticationwizard.payload.request.SignUpDto;
 import co.enoobong.authenticationwizard.payload.response.MessageResponse;
 import co.enoobong.authenticationwizard.payload.response.SignUpResponse;
-import co.enoobong.authenticationwizard.payload.response.UserDto;
 import co.enoobong.authenticationwizard.repository.RoleRepository;
 import co.enoobong.authenticationwizard.repository.SignUpVerificationRepository;
 import co.enoobong.authenticationwizard.repository.UserRepository;
@@ -73,9 +72,8 @@ public class AuthServiceImpl implements AuthService {
         try {
             final User savedUser = userRepository.save(user);
             eventPublisher.publishEvent(new SignUpCompleteEvent(savedUser, baseUrl));
-            final UserDto userDto = new UserDto(savedUser.getId(), savedUser.getFirstName(), savedUser.getLastName(), savedUser.getEmail(),
+            return new SignUpResponse(savedUser.getId(), savedUser.getFirstName(), savedUser.getLastName(), savedUser.getEmail(),
                     savedUser.getCreatedAt());
-            return new SignUpResponse(userDto);
         } catch (DataIntegrityViolationException ex) {
             L.error("An error occurred when signing up", ex);
             throw new EmailTakenException(signUpDto.getEmail());

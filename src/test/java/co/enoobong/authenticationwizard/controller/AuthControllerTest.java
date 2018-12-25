@@ -5,7 +5,6 @@ import co.enoobong.authenticationwizard.payload.request.LoginDto;
 import co.enoobong.authenticationwizard.payload.request.SignUpDto;
 import co.enoobong.authenticationwizard.payload.response.MessageResponse;
 import co.enoobong.authenticationwizard.payload.response.SignUpResponse;
-import co.enoobong.authenticationwizard.payload.response.UserDto;
 import co.enoobong.authenticationwizard.security.UserDetailsServiceImpl;
 import co.enoobong.authenticationwizard.service.AuthService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -27,7 +26,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -53,20 +51,20 @@ class AuthControllerTest {
     @Test
     void signUpShouldSignUpUser() throws Exception {
         final SignUpDto signUpDto = new SignUpDto("Ibanga", "Eno", "ibangaenoobong@yahoo.com", "yagba");
-        final UserDto userDto = new UserDto(1, signUpDto.getFirstName(), signUpDto.getLastName(), signUpDto.getEmail(), Instant.now());
-        final SignUpResponse signUpResponse = new SignUpResponse(userDto);
+        final SignUpResponse signUpResponse = new SignUpResponse(1, signUpDto.getFirstName(), signUpDto.getLastName(), signUpDto.getEmail(), Instant.now());
         given(authService.signUp(any(SignUpDto.class), anyString())).willReturn(signUpResponse);
+        final String registeredAt = toJsonString(signUpResponse.getRegisteredAt()).replaceAll("\"", "");
 
         mockMvc.perform(post("/v1/auth/signUp")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(toJsonString(signUpDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.user.id").value(userDto.getId()))
-                .andExpect(jsonPath("$.user.email").value(userDto.getEmail()))
-                .andExpect(jsonPath("$.user.first_name").value(userDto.getFirstName()))
-                .andExpect(jsonPath("$.user.last_name").value(userDto.getLastName()))
-                .andExpect(jsonPath("$.user.registered_at").exists());
+                .andExpect(jsonPath("$.user.id").value(signUpResponse.getId()))
+                .andExpect(jsonPath("$.user.email").value(signUpResponse.getEmail()))
+                .andExpect(jsonPath("$.user.first_name").value(signUpResponse.getFirstName()))
+                .andExpect(jsonPath("$.user.last_name").value(signUpResponse.getLastName()))
+                .andExpect(jsonPath("$.user.registered_at").value(registeredAt));
     }
 
     @Test
@@ -77,7 +75,6 @@ class AuthControllerTest {
 
         mockMvc.perform(get("/v1/auth/verifyEmail/" + token)
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.message").value(response.getMessage()));
@@ -92,7 +89,6 @@ class AuthControllerTest {
         mockMvc.perform(post("/v1/auth/login/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(toJsonString(loginDto)))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.message").value(response.getMessage()));
